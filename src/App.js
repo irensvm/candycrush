@@ -5,9 +5,12 @@ const candyColours = ["orange", "blue", "green", "red", "yellow", "purple"];
 
 const App = () => {
   const [currentColourArrangement, setColourArrangement] = useState([]);
+  const [squareBeingDragged, setSquareBeingDragged] = useState(null);
+  const [squareBeingReplaced, setSquareBeingReplaced] = useState(null)
+
 
   const checkColumnOf4 = () => {
-    for (let i = 0; i < 39; i++) {
+    for (let i = 0; i <= 39; i++) {
       const columnOf4 = [i, i + width, i + width * 2, i + width * 3];
       const decidedColour = currentColourArrangement[i];
 
@@ -39,7 +42,7 @@ const App = () => {
   };
 
   const checkColumnOf3 = () => {
-    for (let i = 0; i < 47; i++) {
+    for (let i = 0; i <= 47; i++) {
       const columnOf3 = [i, i + width, i + width * 2];
       const decidedColour = currentColourArrangement[i];
 
@@ -70,7 +73,7 @@ const App = () => {
 
 
   const moveIntoSquareBelow = () => {
-    for (let i= 0; i < 64 - width; i++) {
+    for (let i= 0; i <= 55 - width; i++) {
 
       const firstRow = [0,1,2,3,4,5,6,7]
       const isfirstRow = firstRow.includes(i)
@@ -86,6 +89,26 @@ const App = () => {
       }
     }
   }
+
+
+  const dragStart = (e) => {
+    console.log(e.target)
+    console.log('dragstart')
+    setSquareBeingDragged(e.target)
+  }
+
+  const dragDrop = (e) => {
+    console.log(e.target)
+    console.log('drag drop')
+    setSquareBeingReplaced(e.target)
+  }
+
+  const dragEnd = (e) => {
+    console.log('drag end')
+
+    const squareBeingReplaced = parseInt(squareBeingReplaced.getAttribute('data-id')) 
+  }
+
 
 
   const createBoard = () => {
@@ -111,11 +134,11 @@ const App = () => {
       checkRowOf3();
       moveIntoSquareBelow()
       setColourArrangement([...currentColourArrangement]);
-    }, 1000);
+    }, 100);
     return () => clearInterval(timer);
   }, [checkColumnOf4, checkRowOf4, checkColumnOf3, checkRowOf3,moveIntoSquareBelow, currentColourArrangement]);
 
-  console.log(currentColourArrangement);
+  //console.log(currentColourArrangement);
 
   return (
     <div className="app">
@@ -125,6 +148,16 @@ const App = () => {
             key={index}
             style={{ backgroundColor: candyColours }}
             alt={candyColours}
+            data-id={index}
+            draggable={true}
+            onDragStart={dragStart}
+            onDragOver={(e : DragEvent<HTMLImageElement>) => e.preventDefault()}
+            onDragEnter={(e : DragEvent<HTMLImageElement>) => e.preventDefault()}
+            onDragLeave={(e : DragEvent<HTMLImageElement>) => e.preventDefault()}
+            onDrop= {dragDrop}
+            onDragEnd={dragEnd}
+
+
           />
         ))}
       </div>
