@@ -62,11 +62,7 @@ const App = () => {
 
       if(notValid.includes(i)) continue
 
-      if (
-        RowOf3.every(
-          (square) => currentColourArrangement[square] === decidedColour
-        )
-      ) {
+      if(RowOf3.every((square) => currentColourArrangement[square] === decidedColour)) {
         RowOf3.forEach((square) => (currentColourArrangement[square] = ""));
       }
     }
@@ -75,14 +71,20 @@ const App = () => {
 
   const moveIntoSquareBelow = () => {
     for (let i= 0; i < 64 - width; i++) {
+
+      const firstRow = [0,1,2,3,4,5,6,7]
+      const isfirstRow = firstRow.includes(i)
+      if(isfirstRow && currentColourArrangement[i] === '') {
+        let randomNumber = Math.floor(Math.random() * candyColours.length)
+        currentColourArrangement[i] = candyColours[randomNumber]
+      }
+
+
       if((currentColourArrangement[i + width]) === '') {
         currentColourArrangement[i + width] = currentColourArrangement[i]
         currentColourArrangement[i] = ''
       }
     }
-
-
-
   }
 
 
