@@ -106,7 +106,15 @@ const App = () => {
   const dragEnd = (e) => {
     console.log('drag end')
 
-    const squareBeingReplaced = parseInt(squareBeingReplaced.getAttribute('data-id')) 
+    const squareBeingDraggedId = parseInt(squareBeingDragged.getAttribute('data-id')) 
+    const squareBeingReplacedId = parseInt(squareBeingReplaced.getAttribute('data-id')) 
+
+    console.log('squareBeingDraggedId', squareBeingDraggedId)
+    console.log('squareBeingReplacedId', squareBeingReplacedId)
+
+
+
+
   }
 
 
